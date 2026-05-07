@@ -16,6 +16,7 @@ export default function App() {
     fs.selectedScene?.cols ?? 0,
     fs.viewpoint,
     fs.selectedScene?.viewMap ?? {},
+    fs.selectedScene?.name ?? '',
     fs.selectViewpoint,
   )
 

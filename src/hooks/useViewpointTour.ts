@@ -68,6 +68,7 @@ export function useViewpointTour(
   cols: number,
   viewpoint: Viewpoint,
   viewMap: Record<string, string>,
+  sceneName: string,
   onViewpointChange: (vp: Viewpoint) => void,
 ) {
   const [touring, setTouring] = useState(false)
@@ -107,6 +108,10 @@ export function useViewpointTour(
   useEffect(() => {
     if (rows === 0 || cols === 0) stop()
   }, [rows, cols, stop])
+
+  useEffect(() => {
+    stop()
+  }, [sceneName, stop])
 
   // Restart tour with new pattern when changed mid-tour
   // eslint-disable-next-line react-hooks/exhaustive-deps
