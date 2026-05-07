@@ -79,11 +79,13 @@ function centerViewpoint(scene: SceneInfo): Viewpoint {
   return { i: Math.floor(scene.rows / 2), j: Math.floor(scene.cols / 2) }
 }
 
-function clampViewpoint(vp: Viewpoint, scene: SceneInfo): Viewpoint {
-  return {
+function resolveViewpoint(vp: Viewpoint, scene: SceneInfo): Viewpoint {
+  const clamped = {
     i: Math.min(vp.i, scene.rows - 1),
     j: Math.min(vp.j, scene.cols - 1),
   }
+  if (`${clamped.i}_${clamped.j}` in scene.viewMap) return clamped
+  return centerViewpoint(scene)
 }
 
 export function useFilesystem() {
@@ -142,7 +144,7 @@ export function useFilesystem() {
 
   const selectScene = useCallback(
     (scene: SceneInfo) => {
-      const vp = clampViewpoint(viewpoint, scene)
+      const vp = resolveViewpoint(viewpoint, scene)
       setSelectedScene(scene)
       setViewpoint(vp)
       setFrame(0)
