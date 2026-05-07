@@ -6,29 +6,32 @@ export type TourPattern = 'horizontal' | 'vertical' | 'snake' | 'spiral'
 function spiralPath(rows: number, cols: number): Viewpoint[] {
   const ci = Math.floor(rows / 2)
   const cj = Math.floor(cols / 2)
-  const result: Viewpoint[] = [{ i: ci, j: cj }]
-  const maxRing = Math.max(rows, cols)
+  const path: Viewpoint[] = [{ i: ci, j: cj }]
 
-  for (let ring = 1; ring <= maxRing && result.length < rows * cols; ring++) {
-    for (let dj = -ring; dj <= ring; dj++) {
-      const i = ci - ring, j = cj + dj
-      if (i >= 0 && i < rows && j >= 0 && j < cols) result.push({ i, j })
-    }
-    for (let di = -ring + 1; di <= ring; di++) {
-      const i = ci + di, j = cj + ring
-      if (i >= 0 && i < rows && j >= 0 && j < cols) result.push({ i, j })
-    }
-    for (let dj = ring - 1; dj >= -ring; dj--) {
-      const i = ci + ring, j = cj + dj
-      if (i >= 0 && i < rows && j >= 0 && j < cols) result.push({ i, j })
-    }
-    for (let di = ring - 1; di >= -ring + 1; di--) {
-      const i = ci + di, j = cj - ring
-      if (i >= 0 && i < rows && j >= 0 && j < cols) result.push({ i, j })
+  // clockwise: right, down, left, up
+  const di = [0, 1, 0, -1]
+  const dj = [1, 0, -1, 0]
+
+  let i = ci, j = cj
+  let dir = 0
+  let steps = 1
+  let stepsTaken = 0
+  let dirChanges = 0
+
+  while (path.length < rows * cols && steps <= rows + cols) {
+    i += di[dir]
+    j += dj[dir]
+    stepsTaken++
+    if (i >= 0 && i < rows && j >= 0 && j < cols) path.push({ i, j })
+    if (stepsTaken === steps) {
+      stepsTaken = 0
+      dir = (dir + 1) % 4
+      dirChanges++
+      if (dirChanges % 2 === 0) steps++
     }
   }
 
-  return result
+  return path
 }
 
 function generatePath(
