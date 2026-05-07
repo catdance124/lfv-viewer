@@ -1,14 +1,22 @@
 import { useFilesystem } from './hooks/useFilesystem'
 import { usePlayer } from './hooks/usePlayer'
+import { useViewpointTour } from './hooks/useViewpointTour'
 import { Header } from './components/Header'
 import { ImageViewer } from './components/ImageViewer'
 import { FrameControls } from './components/FrameControls'
+import { ViewpointTourControls } from './components/ViewpointTourControls'
 import './App.css'
 
 export default function App() {
   const fs = useFilesystem()
   const frameCount = fs.selectedScene?.frames.length ?? 0
   const player = usePlayer(frameCount, fs.frame, fs.selectFrame)
+  const tour = useViewpointTour(
+    fs.selectedScene?.rows ?? 0,
+    fs.selectedScene?.cols ?? 0,
+    fs.viewpoint,
+    fs.selectViewpoint,
+  )
 
   return (
     <div className="app">
@@ -30,6 +38,16 @@ export default function App() {
           onSelectViewpoint={fs.selectViewpoint}
         />
       </main>
+      {fs.selectedScene && (
+        <ViewpointTourControls
+          touring={tour.touring}
+          pattern={tour.pattern}
+          speed={tour.speed}
+          onToggle={tour.toggle}
+          onPatternChange={tour.setPattern}
+          onSpeedChange={tour.setSpeed}
+        />
+      )}
       <FrameControls
         frame={fs.frame}
         frameCount={frameCount}
