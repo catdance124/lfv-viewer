@@ -15,14 +15,6 @@ export function Header({ scenes, selectedScene, onOpenFolder, onSelectScene, loa
       <button className="btn-open" onClick={onOpenFolder} disabled={loading}>
         Open Folder
       </button>
-      <a
-        className="header-credit"
-        href="https://github.com/catdance124/lfv-viewer"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        catdance124
-      </a>
       {scenes.length > 0 && (
         <select
           className="scene-select"
@@ -39,6 +31,14 @@ export function Header({ scenes, selectedScene, onOpenFolder, onSelectScene, loa
           ))}
         </select>
       )}
+      <a
+        className="header-credit"
+        href="https://github.com/catdance124/lfv-viewer"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        catdance124
+      </a>
     </header>
   )
 }

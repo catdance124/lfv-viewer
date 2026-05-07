@@ -64,6 +64,7 @@ export function useViewpointTour(
   rows: number,
   cols: number,
   viewpoint: Viewpoint,
+  viewMap: Record<string, string>,
   onViewpointChange: (vp: Viewpoint) => void,
 ) {
   const [touring, setTouring] = useState(false)
@@ -79,10 +80,12 @@ export function useViewpointTour(
 
   const play = useCallback(() => {
     if (rows === 0 || cols === 0) return
-    pathRef.current = generatePath(pattern, rows, cols, viewpoint)
+    const full = generatePath(pattern, rows, cols, viewpoint)
+    pathRef.current = full.filter((vp) => `${vp.i}_${vp.j}` in viewMap)
+    if (pathRef.current.length === 0) return
     stepRef.current = 0
     setTouring(true)
-  }, [rows, cols, viewpoint, pattern])
+  }, [rows, cols, viewpoint, pattern, viewMap])
 
   const toggle = useCallback(() => {
     if (touring) stop()
@@ -106,7 +109,8 @@ export function useViewpointTour(
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!touring) return
-    pathRef.current = generatePath(pattern, rows, cols, viewpoint)
+    const full = generatePath(pattern, rows, cols, viewpoint)
+    pathRef.current = full.filter((vp) => `${vp.i}_${vp.j}` in viewMap)
     stepRef.current = 0
   }, [pattern])
 

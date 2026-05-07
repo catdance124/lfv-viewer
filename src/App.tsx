@@ -15,6 +15,7 @@ export default function App() {
     fs.selectedScene?.rows ?? 0,
     fs.selectedScene?.cols ?? 0,
     fs.viewpoint,
+    fs.selectedScene?.viewMap ?? {},
     fs.selectViewpoint,
   )
 
@@ -35,6 +36,7 @@ export default function App() {
           rows={fs.selectedScene?.rows ?? 0}
           cols={fs.selectedScene?.cols ?? 0}
           viewpoint={fs.viewpoint}
+          viewMap={fs.selectedScene?.viewMap ?? {}}
           onSelectViewpoint={fs.selectViewpoint}
         />
       </main>

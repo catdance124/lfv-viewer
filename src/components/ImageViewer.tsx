@@ -8,6 +8,7 @@ interface Props {
   rows: number
   cols: number
   viewpoint: Viewpoint
+  viewMap: Record<string, string>
   onSelectViewpoint: (vp: Viewpoint) => void
 }
 
@@ -18,6 +19,7 @@ export function ImageViewer({
   rows,
   cols,
   viewpoint,
+  viewMap,
   onSelectViewpoint,
 }: Props) {
   return (
@@ -30,7 +32,7 @@ export function ImageViewer({
       {imageSrc && <img src={imageSrc} alt="Light field frame" className="main-image" />}
       {rows > 0 && cols > 0 && (
         <div className="vp-overlay">
-          <ViewpointGrid rows={rows} cols={cols} viewpoint={viewpoint} onSelect={onSelectViewpoint} />
+          <ViewpointGrid rows={rows} cols={cols} viewpoint={viewpoint} viewMap={viewMap} onSelect={onSelectViewpoint} />
         </div>
       )}
     </div>
